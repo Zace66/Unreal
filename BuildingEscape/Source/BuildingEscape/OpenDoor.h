@@ -5,7 +5,6 @@
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 {
@@ -25,19 +24,22 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
+	const float TriggerMass = 50.f;
+
 	UPROPERTY(EditAnywhere)
 		float OpenAngle = 90.0f;
 
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
+		ATriggerVolume* PressurePlate = nullptr;
 
 	UPROPERTY(EditAnywhere)
 		float DoorCloseDelay = 1.0f;
 
 	float LastDoorOpenTime;
 
-	AActor* ActorThatOpens;
-	AActor* Owner;
+	// The owning door
+	AActor* Owner = nullptr;
 
-	
+	// get total mass on the pressure plate in KG
+	float GetTotalMassOfActorsOnplate();
 };
